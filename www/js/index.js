@@ -26,7 +26,7 @@
         }, 1000);
     }
 
-    if (navigator.compass) {
+    if (/ios|iphone|ipod|ipad|android/i.test(navigator.userAgent)) {
         document.addEventListener('deviceready', initCompass, false);
     } else {
         mockCompass();
