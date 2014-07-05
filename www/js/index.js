@@ -1,8 +1,10 @@
 (function() {
 
+
     function successHeading(heading) {
         document.getElementById('compass-heading').innerHTML = heading.magneticHeading;
         document.getElementById('update-time').innerHTML = new Date();
+        compass.setHeading(heading.magneticHeading);
     }
 
     function errorHeading() {
@@ -31,5 +33,6 @@
     } else {
         mockCompass();
     }
+
 })();
 
