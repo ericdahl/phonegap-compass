@@ -22,7 +22,7 @@
             successHeading({
                 magneticHeading: heading
             });
-            heading += 5;
+            heading = (heading + 5) % 360;
         }, 1000);
     }
 
