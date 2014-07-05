@@ -3,7 +3,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         jshint: {
-            files: ['Gruntfile.js', 'www/**/*.js', 'test/**/*.js'],
+            files: ['Gruntfile.js', 'www/js/*.js', 'test/**/*.js'],
             options: {
                 jshintrc: '.jshintrc'
             }
@@ -20,5 +20,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-phonegap');
 
     grunt.registerTask('default', ['jshint']);
-    grunt.registerTask('run', ['phonegap:build', 'phonegap:run']);
+    grunt.registerTask('run', ['default', 'phonegap:build', 'phonegap:run']);
 };
