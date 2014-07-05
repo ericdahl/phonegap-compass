@@ -1,5 +1,6 @@
+/* global document, navigator, compass, setInterval */
 (function() {
-
+    'use strict';
 
     function successHeading(heading) {
         document.getElementById('compass-heading').innerHTML = heading.magneticHeading;
