@@ -3,14 +3,11 @@
     'use strict';
 
     function successHeading(heading) {
-        document.getElementById('compass-heading').innerHTML = heading.magneticHeading;
-        document.getElementById('update-time').innerHTML = new Date();
         compass.setHeading(heading.magneticHeading);
     }
 
     function errorHeading() {
-        document.getElementById('compass-heading').innerHTML = '-999';
-        document.getElementById('update-time').innerHTML = new Date();
+        compass.setHeading(-999);
     }
 
     function initCompass() {
