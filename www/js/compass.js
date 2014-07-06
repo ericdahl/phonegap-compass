@@ -4,30 +4,8 @@ var compass = (function () {
 
     var data = {
         length: 60,
-        color: '#ff0000',
-        heading: 0
+        color: '#ff0000'
     };
-
-    var lineData = [
-        {
-            color: 'red',
-            points: [
-                { 'x': -2, 'y': 0},
-                { 'x': 2, 'y': 0},
-                { 'x': 0, 'y': -25},
-                { 'x': -2, 'y': 0}
-            ]
-        },
-        {
-            color: 'white',
-            points: [
-                { 'x': -2, 'y': 0},
-                { 'x': 2, 'y': 0},
-                { 'x': 0, 'y': 25},
-                { 'x': -2, 'y': 0}
-            ]
-        }
-    ];
 
     var svg = d3.select('.compass-container')
         .append('svg')
@@ -45,11 +23,47 @@ var compass = (function () {
         .attr('width', 100)
         .attr('height', 100);
 
+
     function setHeading(angleDegrees) {
         data.heading = angleDegrees;
 
-        var needle = svg.selectAll('polygon').data(lineData);
+        updateNeedle(angleDegrees);
 
+        updateHeadingText();
+
+        updateModifiedText();
+    }
+
+    function updateNeedle(angleDegrees) {
+        var needleData = {
+            circle: [
+                {
+                    r: 2
+                }
+            ],
+            needlePolygons: [
+                {
+                    color: 'red',
+                    points: [
+                        { 'x': -2, 'y': 0},
+                        { 'x': 2, 'y': 0},
+                        { 'x': 0, 'y': -25},
+                        { 'x': -2, 'y': 0}
+                    ]
+                },
+                {
+                    color: 'white',
+                    points: [
+                        { 'x': -2, 'y': 0},
+                        { 'x': 2, 'y': 0},
+                        { 'x': 0, 'y': 25},
+                        { 'x': -2, 'y': 0}
+                    ]
+                }
+            ]
+        };
+
+        var needle = svg.selectAll('polygon').data(needleData.needlePolygons);
         needle.enter().append('polygon')
             .attr('points', function (d) {
                 return d.points.map(function (d) {
@@ -65,12 +79,12 @@ var compass = (function () {
             return 'rotate(' + -angleDegrees + ', 0,0)';
         });
 
-
-        svg.append('circle')
-            .attr('cx', 0)
-            .attr('cy', 0)
+        var circle = svg.selectAll('circle').data(needleData.circle);
+        circle.enter().append('circle')
             .attr('r', 2);
+    }
 
+    function updateHeadingText() {
         var headingText = svg.selectAll('#heading').data([data]);
         headingText.enter()
             .append('text')
@@ -84,7 +98,9 @@ var compass = (function () {
             return d.heading.toFixed(2) + '\u00b0';
         });
         headingText.exit().remove();
+    }
 
+    function updateModifiedText() {
         var updateText = svg.selectAll('#update').data([data]);
         updateText.enter()
             .append('text')
