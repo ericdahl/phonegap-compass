@@ -3,7 +3,7 @@ var compass = (function() {
     'use strict';
 
     var data = {
-        length: 30,
+        length: 60,
         color: '#ff0000',
         heading: 0
     };
