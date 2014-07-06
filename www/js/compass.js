@@ -6,8 +6,8 @@ var compass = (function() {
         length: 30,
         color: '#ff0000',
         heading: 0,
-        dy: 50,
-        dx: 50
+        dy: 0,
+        dx: 0
     };
 
     function scale(svg) {
@@ -28,6 +28,7 @@ var compass = (function() {
         .attr('width', '100%')
         .attr('height', '100%')
         .attr('viewBox','0 0 100 100')
+        .attr('transform', 'translate(100, 100)')
         .attr('preserveAspectRatio','xMinYMin');
 
     scale(svg);
@@ -43,14 +44,20 @@ var compass = (function() {
         line.enter()
             .append('line')
             .attr('id', 'compass')
-            .attr('x1', function(d) { return d.dx; })
-            .attr('y1', function(d) { return d.dy; })
+            .attr('x1', 0)
+            .attr('y1', function(d) { return d.length / 2; })
+            .attr('x2', 0)
+            .attr('y2', function(d) { return -d.length / 2; })
             .attr('stroke', function(d) { return d.color; });
 
-        line.attr('x2', function(d) { return d.dx + Math.sin(d.heading * Math.PI / 180) * d.length; })
-            .attr('y2', function(d) { return d.dy + Math.cos(d.heading * Math.PI / 180) * -1 * d.length; });
+        line.transition().attr('transform', function(d) { return 'rotate(' + d.heading + ', 0,0)';});
 
         line.exit().remove();
+
+        svg.append('circle')
+            .attr('cx', 0)
+            .attr('cy', 0)
+            .attr('r', 2);
 
         var headingText = svg.selectAll('#heading').data([data]);
         headingText.enter()
