@@ -38,7 +38,7 @@ var compass = (function() {
             .attr('y2', function(d) { return -d.length / 2; })
             .attr('stroke', function(d) { return d.color; });
 
-        line.transition().attr('transform', function(d) { return 'rotate(' + d.heading + ', 0,0)';});
+        line.transition().attr('transform', function(d) { return 'rotate(' + -d.heading + ', 0,0)';});
 
         line.exit().remove();
 
