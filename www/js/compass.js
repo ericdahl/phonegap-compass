@@ -24,6 +24,8 @@ var compass = (function () {
         .attr('height', 100);
 
 
+
+
     function setHeading(angleDegrees) {
         data.heading = angleDegrees;
 
@@ -32,6 +34,8 @@ var compass = (function () {
         updateHeadingText();
 
         updateModifiedText();
+
+        updateHeadings();
     }
 
     function updateNeedle(angleDegrees) {
@@ -45,19 +49,19 @@ var compass = (function () {
                 {
                     color: 'red',
                     points: [
-                        { 'x': -2, 'y': 0},
-                        { 'x': 2, 'y': 0},
-                        { 'x': 0, 'y': -25},
-                        { 'x': -2, 'y': 0}
+                        { x: -2, y: 0  },
+                        { x: 2, y: 0 },
+                        { x: 0, y: -25 },
+                        { x: -2, y: 0 }
                     ]
                 },
                 {
                     color: 'white',
                     points: [
-                        { 'x': -2, 'y': 0},
-                        { 'x': 2, 'y': 0},
-                        { 'x': 0, 'y': 25},
-                        { 'x': -2, 'y': 0}
+                        { x: -2, y: 0 },
+                        { x: 2, y: 0 },
+                        { x: 0, y: 25 },
+                        { x: -2, y: 0 }
                     ]
                 }
             ]
@@ -76,7 +80,7 @@ var compass = (function () {
                 return d.color;
             });
         needle.transition().attr('transform', function () {
-            return 'rotate(' + -angleDegrees + ', 0,0)';
+            return 'rotate(' + angleDegrees + ', 0,0)';
         });
 
         var circle = svg.selectAll('circle').data(needleData.circle);
@@ -114,6 +118,28 @@ var compass = (function () {
             return new Date().toLocaleTimeString();
         });
         updateText.exit().remove();
+    }
+
+    function updateHeadings() {
+
+        var data = [
+            {label: 'N', x: 0, y: -30},
+            {label: 'S', x: 0, y: 30},
+            {label: 'W', x: -30, y: 1},
+            {label: 'E', x: 30, y: 1}
+        ];
+
+        var headingText = svg.selectAll('#N').data(data);
+        headingText.enter()
+            .append('text')
+            .attr('id', 'N')
+            .style('text-anchor', 'middle')
+            .attr('font-size', '0.3em')
+            .attr('x', function(d) {return d.x;})
+            .attr('y', function(d) {return d.y;})
+            .text(function(d) {return d.label;});
+
+        headingText.exit().remove();
     }
 
     setHeading(0);
