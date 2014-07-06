@@ -54,7 +54,7 @@ var compass = (function() {
             .style('text-anchor', 'middle')
             .attr('font-size', '0.3em')
             .attr('x', 0)
-            .attr('y', function() { return data.length * 1.3;});
+            .attr('y', 40);
 
         headingText.text(function(d) { return d.heading.toFixed(2) + '\u00b0'; });
         headingText.exit().remove();
@@ -66,7 +66,7 @@ var compass = (function() {
             .style('text-anchor', 'middle')
             .attr('font-size', '0.3em')
             .attr('x', 0)
-            .attr('y', function() { return 5 + data.length * 1.4;});
+            .attr('y', 45);
 
         updateText.text(function() { return new Date().toLocaleTimeString(); });
         updateText.exit().remove();
