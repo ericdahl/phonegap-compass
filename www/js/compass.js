@@ -2,36 +2,24 @@
 var compass = (function () {
     'use strict';
 
-    var data = {
-        length: 60,
-        color: '#ff0000'
-    };
-
     var svg = d3.select('.compass-container')
         .append('svg')
-        .attr('width', '100%')
-        .attr('height', '100%')
-        .attr('viewBox', '0 0 100 100')
-        .append('g')
-        .attr('transform', 'translate(50, 50)');
+            .attr('width', '100%')
+            .attr('height', '100%')
+            .attr('viewBox', '0 0 100 100')
+            .append('g')
+                .attr('transform', 'translate(50, 50)');
 
-    svg.append('g')
-        .attr('opacity', 30).append('rect')
-        .attr('x', -50)
-        .attr('y', -50)
-        .attr('fill', 'yellow')
-        .attr('width', 100)
-        .attr('height', 100);
+    svg.append('circle')
+        .attr('r', 36)
+        .attr('fill', 'lightgray')
+        .attr('stroke', 'black')
+        .attr('stroke-width', '0.4');
 
-
-
-
-    function setHeading(angleDegrees) {
-        data.heading = angleDegrees;
-
+    function updateHeading(angleDegrees) {
         updateNeedle(angleDegrees);
 
-        updateHeadingText();
+        updateHeadingText(angleDegrees);
 
         updateModifiedText();
 
@@ -88,31 +76,31 @@ var compass = (function () {
             .attr('r', 2);
     }
 
-    function updateHeadingText() {
-        var headingText = svg.selectAll('#heading').data([data]);
+    function updateHeadingText(angleDegrees) {
+        var headingText = svg.selectAll('#heading').data([1]);
         headingText.enter()
             .append('text')
             .attr('id', 'heading')
             .style('text-anchor', 'middle')
             .attr('font-size', '0.3em')
             .attr('x', 0)
-            .attr('y', 40);
+            .attr('y', 43);
 
-        headingText.text(function (d) {
-            return d.heading.toFixed(2) + '\u00b0';
+        headingText.text(function () {
+            return angleDegrees.toFixed(2) + '\u00b0';
         });
         headingText.exit().remove();
     }
 
     function updateModifiedText() {
-        var updateText = svg.selectAll('#update').data([data]);
+        var updateText = svg.selectAll('#update').data([1]);
         updateText.enter()
             .append('text')
             .attr('id', 'update')
             .style('text-anchor', 'middle')
             .attr('font-size', '0.3em')
             .attr('x', 0)
-            .attr('y', 45);
+            .attr('y', 49);
 
         updateText.text(function () {
             return new Date().toLocaleTimeString();
@@ -124,9 +112,9 @@ var compass = (function () {
 
         var data = [
             {label: 'N', x: 0, y: -30},
-            {label: 'S', x: 0, y: 30},
-            {label: 'W', x: -30, y: 1},
-            {label: 'E', x: 30, y: 1}
+            {label: 'S', x: 0, y: 33},
+            {label: 'W', x: -31, y: 1},
+            {label: 'E', x: 31, y: 1}
         ];
 
         var headingText = svg.selectAll('#N').data(data);
@@ -142,10 +130,10 @@ var compass = (function () {
         headingText.exit().remove();
     }
 
-    setHeading(0);
+    updateHeading(0);
 
     return {
-        setHeading: setHeading
+        setHeading: updateHeading
     };
 })();
 
