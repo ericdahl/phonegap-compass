@@ -56,7 +56,7 @@ var compass = (function() {
             .attr('x', 0)
             .attr('y', function() { return data.length * 1.3;});
 
-        headingText.text(function(d) { return d.heading.toFixed(2); });
+        headingText.text(function(d) { return d.heading.toFixed(2) + '\u00b0'; });
         headingText.exit().remove();
 
         var updateText = svg.selectAll('#update').data([data]);
