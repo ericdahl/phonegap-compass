@@ -1,40 +1,28 @@
-/* global d3, module, window */
+/* global d3, module */
 var compass = (function() {
     'use strict';
 
     var data = {
         length: 30,
         color: '#ff0000',
-        heading: 0,
-        dy: 0,
-        dx: 0
+        heading: 0
     };
-
-    function scale(svg) {
-        // TODO: Figure out how to make this work on webkit and remove dx/dy
-        /* jshint unused: false */
-        /*
-        var chart = d3.select('.compass-container'),
-            width = chart.style('width').replace('px', ''),
-            height = chart.style('height').replace('px', '');
-
-        svg.attr('transform', 'translate(' + width /2 + ',' + height / 2+ ')');
-        */
-    }
-
 
     var svg = d3.select('.compass-container')
         .append('svg')
         .attr('width', '100%')
         .attr('height', '100%')
         .attr('viewBox','0 0 100 100')
-        .attr('transform', 'translate(100, 100)')
-        .attr('preserveAspectRatio','xMinYMin');
+        .append('g')
+            .attr('transform', 'translate(50, 50)');
 
-    scale(svg);
-    d3.select(window).on('resize', function() {
-        scale(svg);
-    });
+    svg.append('g')
+        .attr('opacity', 30).append('rect')
+            .attr('x', -50)
+            .attr('y', -50)
+            .attr('fill', 'yellow')
+            .attr('width', 100)
+            .attr('height', 100);
 
     function setHeading(angleDegrees) {
         data.heading = angleDegrees;
@@ -65,8 +53,8 @@ var compass = (function() {
             .attr('id', 'heading')
             .style('text-anchor', 'middle')
             .attr('font-size', '0.3em')
-            .attr('x', function(d) { return d.dx; })
-            .attr('y', function(d) { return d.dy + data.length * 1.3;});
+            .attr('x', 0)
+            .attr('y', function() { return data.length * 1.3;});
 
         headingText.text(function(d) { return d.heading.toFixed(2); });
         headingText.exit().remove();
@@ -77,8 +65,8 @@ var compass = (function() {
             .attr('id', 'update')
             .style('text-anchor', 'middle')
             .attr('font-size', '0.3em')
-            .attr('x', function(d) { return d.dx; })
-            .attr('y', function(d) { return d.dy + 5 + data.length * 1.4;});
+            .attr('x', 0)
+            .attr('y', function() { return 5 + data.length * 1.4;});
 
         updateText.text(function() { return new Date().toLocaleTimeString(); });
         updateText.exit().remove();
